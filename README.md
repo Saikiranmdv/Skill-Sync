@@ -11,12 +11,3 @@ A powerful tool to compare job descriptions (JD) with resumes/CVs and produce a 
 - Built-in support for common industry terminologies and synonyms.  
 
 ---
-
-## **Technologies Used**
-- **Frontend:** React.js  
-- **Backend:** Node.js with Express.js  
-- **Database:** MongoDB (or any other database of choice)  
-- **AI/ML:** Natural Language Processing (NLP) using Python (e.g., spaCy, NLTK)  
-- **Cloud Services:** Optional integration with Azure AI or AWS Comprehend for enhanced analysis.  
-
----
