@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
 import FileUpload from './components/FileUpload';
+import RelevancyScoreComponent from './components/RelevancyScoreComponent';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const App = () => {
   const [JDContent, setJDContent] = useState("");
   const [skillContent, setSkillContent] = useState("");
   const [answer, setAnswer] = useState("");
   const [isLoading, setIsLoading] = useState(false); // Loading state to control button
+  const [relavancyScore, setrelavancyScore] = useState()
 
   const handleFileContentExtracted = (content) => {
     setSkillContent(content);
@@ -20,7 +24,6 @@ const App = () => {
     }
 
     const apiKey = import.meta.env.VITE_API_KEY;
-    setAnswer("Loading...");
     setIsLoading(true); // Start loading
 
     try {
@@ -32,13 +35,21 @@ const App = () => {
             {
               parts: [
                 {
-                  text: `Analyze the following job description and provided skills to evaluate their compatibility. Consider key requirements, qualifications, and responsibilities from the job description and match them with the skills listed. Provide a relevancy score (0-100) and a concise justification for the score, highlighting specific alignments or gaps.
+                  text: `Analyze the following job description and the provided skills to evaluate their compatibility. Focus on the following aspects:
 
-                    Job Description:
-                    ${JDContent}
+                        Key Requirements & Qualifications: Match specific qualifications and experiences (e.g., education level, years of experience, technical expertise) mentioned in the job description to those listed in the skills.
+                        Responsibilities: Identify overlaps between the responsibilities outlined in the job description and the experiences provided in the skills.
+                        Tools & Technologies: Compare the tools, technologies, and methodologies mentioned in the job description with those highlighted in the skills.
+                        Soft Skills: Assess the alignment of any soft skills or non-technical requirements.
+                        Provide a Relevancy Score (0-100) in the format "Relevancy Score: 85/100". Additionally, offer:
 
-                    Skills:
-                    ${skillContent}`,
+                        A justification for the score, including specific alignments and gaps.
+                        Actionable suggestions to improve the score, such as skills to acquire, tools to learn, or experiences to emphasize.
+                        Job Description: ${JDContent}
+
+                        Skills: ${skillContent}
+
+                        `,
                 },
               ],
             },
@@ -47,6 +58,14 @@ const App = () => {
       });
       const generatedResponse = response.data.candidates[0].content.parts[0].text
       setAnswer(generatedResponse);
+
+      const match = generatedResponse.match(/Relevancy Score: (\d+)\/100/);
+      if (match) {
+        const generatedRelavancyScore = match[1];
+        setrelavancyScore(generatedRelavancyScore);
+      } else {
+        console.error("Relevancy Score pattern not found in the response");
+      }
 
     } catch (error) {
       console.error("Error generating answer:", error);
@@ -73,6 +92,7 @@ const App = () => {
         {isLoading ? "Loading..." : "Check Relevancy"}
       </button>
       <div>
+        <RelevancyScoreComponent score={relavancyScore} />
         <ReactMarkdown>{answer}</ReactMarkdown>
       </div>
     </main>
