@@ -92,7 +92,7 @@ const App = () => {
         {isLoading ? "Loading..." : "Check Relevancy"}
       </button>
       <div>
-        <RelevancyScoreComponent score={relavancyScore} />
+        {relavancyScore && <RelevancyScoreComponent score={relavancyScore} />} 
         <ReactMarkdown>{answer}</ReactMarkdown>
       </div>
     </main>
