@@ -3,6 +3,7 @@ import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
 import FileUpload from './components/FileUpload';
 import RelevancyScoreComponent from './components/RelevancyScoreComponent';
+import './App.css'
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -91,9 +92,9 @@ const App = () => {
       <button onClick={generateAnswer} disabled={isLoading || !JDContent || !skillContent}>
         {isLoading ? "Loading..." : "Check Relevancy"}
       </button>
-      <div>
+      <div style={{paddingTop: "10px"}}>
         {relavancyScore && <RelevancyScoreComponent score={relavancyScore} />} 
-        <ReactMarkdown>{answer}</ReactMarkdown>
+        <div className='react-markdown'><ReactMarkdown>{answer}</ReactMarkdown></div>
       </div>
     </main>
   );

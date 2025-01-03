@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import mammoth from 'mammoth'; // For DOCX files
 import { pdfjs } from 'react-pdf'; // For PDF files
+import './FileUpload.css'
 
 const FileUpload = ({ onFileContentExtracted }) => {
   const [file, setFile] = useState(null);
@@ -75,8 +76,8 @@ const FileUpload = ({ onFileContentExtracted }) => {
   }, [file, fileType]);
 
   return (
-    <div>
-      <input
+    <div className='file-upload-containe'>
+      <input className='file-upload-input'
         type="file"
         accept=".pdf,.docx,.txt"
         onChange={handleFileChange}
